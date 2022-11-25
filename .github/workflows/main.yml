@@ -1,15 +1,14 @@
-name: Trigger
-on:
-  push:
-    branches: [main]
-
+on: [push, workflow_dispatch]
 jobs:
-  build:
+  trigger:
     runs-on: ubuntu-latest
+    name: "📦 Trigger Project Test"
     steps:
-      - name: Trigger 
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{secrets.ACTIONS_TOKEN}}
-          repository:  Thaiebu/Room_booking_CRUD 
-          event-type: qa
+    - uses: passeidireto/trigger-external-workflow-action@main
+      env:
+        PAYLOAD_AUTHOR: ${{ github.author }}
+        PAYLOAD_REVISION: "3"
+      with:
+        repository: Thaiebu/Room_booking_CRUD
+        event: doc_update
+        github_pat: ${{ secrets.pat_with_access }}
